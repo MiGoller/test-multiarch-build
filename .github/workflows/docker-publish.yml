@@ -88,5 +88,5 @@ jobs:
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
           push: true
           tags: |
-            migoller/${{ IMAGE_NAME }}:latest
-            migoller/${{ IMAGE_NAME }}:${{ NODE_VERSION }}.${{ IMAGE_VERSION }}
+            migoller/${{ env.IMAGE_NAME }}:latest
+            migoller/${{ env.IMAGE_NAME }}:${{ env.NODE_VERSION }}.${{ env.IMAGE_VERSION }}
