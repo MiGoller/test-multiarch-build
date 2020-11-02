@@ -1,18 +1,16 @@
-ARG ARCH
-FROM ${ARCH:-library}/ubuntu:20.04
+FROM ubuntu:20.04
 
 # Build arguments ...
 
-# Version information
-
-# S6-Overlay
+# S6-Overlay version
 ARG ARG_S6_OVERLAY_VERSION="2.1.0.2"
 
 # The commit sha triggering the build.
 ARG ARG_APP_COMMIT
 
-# The base image arch
-ARG ARCH
+# BuildX ...
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 
 # Basic build-time metadata as defined at http://label-schema.org
 LABEL \
@@ -33,8 +31,7 @@ LABEL \
 # Default environment variables
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
-    S6_OVERLAY_VERSION=${ARG_S6_OVERLAY_VERSION} \
-    IMAGE_ARCH=${ARCH:-x86_64}
+    S6_OVERLAY_VERSION=${ARG_S6_OVERLAY_VERSION}
 
 # Install prerequisites
 RUN \
@@ -51,18 +48,19 @@ RUN \
 # Install S6-Overlay
 RUN \
     # Determine S6 arch to download and to install
-    echo "BUILDPLATFORM: ${BUILDPLATFORM}, BUILDARCH: ${BUILDARCH}, BUILDOS: ${BUILDOS}, BUILDVARIANT: ${BUILDVARIANT}" \
-    && echo "TARGETPLATFORM: ${TARGETPLATFORM}, TARGETARCH: ${TARGETARCH}, TARGETOS: ${TARGETOS}, UNAME: $(uname -m)" \
-    && case "${IMAGE_ARCH}" in \
+    case "$(uname -m)" in \
         x86_64) S6_ARCH='amd64';; \
-        arm) S6_ARCH='armhf';; \
+        armv7l) S6_ARCH='armhf';; \
         aarch64) S6_ARCH='aarch64';; \
-        *) echo "Unsupported architecture for S6: ${IMAGE_ARCH}"; exit 1 ;; \ 
+        *) echo "Unsupported architecture for S6: $(uname -m)"; exit 1 ;; \ 
     esac \
     && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v${ARG_S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.gz" \
         | tar zxvf - -C / \
     && mkdir -p /etc/fix-attrs.d \
-    && mkdir -p /etc/services.d 
+    && mkdir -p /etc/services.d \
+    && echo "S6 Overlay v${ARG_S6_OVERLAY_VERSION} (${S6_ARCH}) installed."
+
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM with UNAME -M $(uname -m)."
 
 # Set container entrpoint to S6-Overlay!
 ENTRYPOINT ["/init"]
