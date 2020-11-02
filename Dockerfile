@@ -58,9 +58,7 @@ RUN \
         | tar zxvf - -C / \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
-    && echo "S6 Overlay v${ARG_S6_OVERLAY_VERSION} (${S6_ARCH}) installed."
-
-RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM with UNAME -M $(uname -m)."
+    && echo "S6 Overlay v${ARG_S6_OVERLAY_VERSION} (${S6_ARCH}) installed on ${BUILDPLATFORM} for ${TARGETPLATFORM}."
 
 # Set container entrpoint to S6-Overlay!
 ENTRYPOINT ["/init"]
