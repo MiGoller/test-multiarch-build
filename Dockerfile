@@ -51,7 +51,8 @@ RUN \
 # Install S6-Overlay
 RUN \
     # Determine S6 arch to download and to install
-    echo "QEMU: ${QEMU_ARCH}, Arch: $(uname -m)" \
+    echo "BUILDPLATFORM: ${BUILDPLATFORM}, BUILDARCH: ${BUILDARCH}, BUILDOS: ${BUILDOS}, BUILDVARIANT: ${BUILDVARIANT}" \
+    && echo "TARGETPLATFORM: ${TARGETPLATFORM}, TARGETARCH: ${TARGETARCH}, TARGETOS: ${TARGETOS}, UNAME: $(uname -m)" \
     && case "${IMAGE_ARCH}" in \
         x86_64) S6_ARCH='amd64';; \
         arm) S6_ARCH='armhf';; \
