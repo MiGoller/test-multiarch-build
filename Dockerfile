@@ -48,17 +48,23 @@ RUN \
 # Install S6-Overlay
 RUN \
     # Determine S6 arch to download and to install
-    case "$(uname -m)" in \
-        x86_64) S6_ARCH='amd64';; \
-        armv7l) S6_ARCH='armhf';; \
-        aarch64) S6_ARCH='aarch64';; \
-        *) echo "Unsupported architecture for S6: $(uname -m)"; exit 1 ;; \ 
+    S6_ARCH= \
+    && dpkgArch="$(dpkg --print-architecture)" \
+    && case "${dpkgArch##*-}" in \
+        amd64) S6_ARCH='amd64';; \
+        ppc64el) S6_ARCH='ppc64le';; \
+        arm64) S6_ARCH='arm64';; \
+        arm) S6_ARCH='arm';; \
+        armel) S6_ARCH='arm';; \
+        armhf) S6_ARCH='armhf';; \
+        i386) S6_ARCH='x86';; \
+        *) echo "Unsupported architecture for S6: ${dpkgArch}"; exit 1 ;; \ 
     esac \
     && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v${ARG_S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.gz" \
         | tar zxvf - -C / \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
-    && echo "S6 Overlay v${ARG_S6_OVERLAY_VERSION} (${S6_ARCH}) installed on ${BUILDPLATFORM} for ${TARGETPLATFORM}."
+    && echo "S6 Overlay v${ARG_S6_OVERLAY_VERSION} (${S6_ARCH} for dpkArch ${dpkgArch}) installed on ${BUILDPLATFORM} for ${TARGETPLATFORM}."
 
 # Set container entrpoint to S6-Overlay!
 ENTRYPOINT ["/init"]
