@@ -48,12 +48,12 @@ RUN \
 # Install S6-Overlay
 RUN \
     # Determine S6 arch to download and to install
-    S6_ARCH= \
+    S6_ARCH="" \
     && dpkgArch="$(dpkg --print-architecture)" \
     && case "${dpkgArch##*-}" in \
         amd64) S6_ARCH='amd64';; \
         ppc64el) S6_ARCH='ppc64le';; \
-        arm64) S6_ARCH='arm64';; \
+        # arm64) S6_ARCH='arm64';; \
         arm) S6_ARCH='arm';; \
         armel) S6_ARCH='arm';; \
         armhf) S6_ARCH='armhf';; \
