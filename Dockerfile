@@ -53,7 +53,7 @@ RUN \
     && case "${dpkgArch##*-}" in \
         amd64) S6_ARCH='amd64';; \
         ppc64el) S6_ARCH='ppc64le';; \
-        # arm64) S6_ARCH='arm64';; \
+        arm64) S6_ARCH='armhf';; \
         arm) S6_ARCH='arm';; \
         armel) S6_ARCH='arm';; \
         armhf) S6_ARCH='armhf';; \
