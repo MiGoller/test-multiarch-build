@@ -18,7 +18,6 @@ env:
   IMAGE_NAME: "test-multiarch-build"
   IMAGE_VERSION: "1.0"
   NODE_VERSION: "12"
-  IMAGE_ID: "migoller/test"
 
 jobs:
   # Run tests.
@@ -99,5 +98,5 @@ jobs:
             migoller/${{ env.IMAGE_NAME }}:latest
             migoller/${{ env.IMAGE_NAME }}:${{ env.NODE_VERSION }}
             migoller/${{ env.IMAGE_NAME }}:${{ env.NODE_VERSION }}.${{ env.IMAGE_VERSION }}
-            ${{ env.IMAGE_ID }}:latest
-            ${{ env.IMAGE_ID }}:${{ env.NODE_VERSION }}
+            ghcr.io/migoller/${{ env.IMAGE_NAME }}:latest
+            ghcr.io/migoller/${{ env.IMAGE_NAME }}:${{ env.NODE_VERSION }}
