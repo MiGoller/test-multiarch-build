@@ -85,8 +85,8 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "main" ] && VERSION=latest
 
-          echo '::set-output name=IMAGE_ID::$IMAGE_ID'
-          echo '::set-output name=IMAGE_REF::$VERSION'
+          echo ::set-output name=IMAGE_ID::${IMAGE_ID}
+          echo ::set-output name=IMAGE_REF::${VERSION}
 
       - name: Build and push
         uses: docker/build-push-action@v2
