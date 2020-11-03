@@ -97,9 +97,6 @@ jobs:
           push: true
           tags: |
             ${{ steps.image_information.outputs.IMAGE_ID }}:latest
-            # migoller/${{ env.IMAGE_NAME }}:latest
-            # migoller/${{ env.IMAGE_NAME }}:${{ env.NODE_VERSION }}
-            # migoller/${{ env.IMAGE_NAME }}:${{ env.NODE_VERSION }}.${{ env.IMAGE_VERSION }}
             ghcr.io/migoller/${{ env.IMAGE_NAME }}:latest
             ghcr.io/migoller/${{ env.IMAGE_NAME }}:${{ env.NODE_VERSION }}
       
