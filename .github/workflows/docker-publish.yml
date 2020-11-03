@@ -10,6 +10,11 @@ on:
     tags:
       - v*
 
+    # Igore these files
+    paths-ignore:
+      - '**/README.md'
+      - 'LICENSE'
+
   # Run tests for any PRs.
   pull_request:
 
@@ -97,6 +102,8 @@ jobs:
           push: true
           tags: |
             ${{ steps.image_information.outputs.IMAGE_ID }}:latest
+            ${{ steps.image_information.outputs.IMAGE_ID }}:${{ env.NODE_VERSION }}
+            ${{ steps.image_information.outputs.IMAGE_ID }}:${{ env.NODE_VERSION }}.${{ env.IMAGE_VERSION }}
             ghcr.io/migoller/${{ env.IMAGE_NAME }}:latest
             ghcr.io/migoller/${{ env.IMAGE_NAME }}:${{ env.NODE_VERSION }}
       
