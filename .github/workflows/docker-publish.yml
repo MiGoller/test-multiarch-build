@@ -100,3 +100,10 @@ jobs:
             migoller/${{ env.IMAGE_NAME }}:${{ env.NODE_VERSION }}.${{ env.IMAGE_VERSION }}
             ghcr.io/migoller/${{ env.IMAGE_NAME }}:latest
             ghcr.io/migoller/${{ env.IMAGE_NAME }}:${{ env.NODE_VERSION }}
+      
+      - name: Update repo description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: migoller/${{ env.IMAGE_NAME }}
